@@ -1,7 +1,7 @@
 #define user account, group and current litecoin version
 LITECOIND_USER="litecoind" #the user litecoind will run under
 LITECOIND_GROUP="litecoind" #the group litecoind is a member of
-LITECOIN_VER_NO_BIT="litecoin-0.14.2"
+LITECOIN_VER_NO_BIT="litecoin-0.15.1"
 LITECOIN_VER_W_BIT="$LITECOIN_VER_NO_BIT.0"
 
 #define directory locations
@@ -35,8 +35,8 @@ RANDOM=$$$(date +%s)
 BOOTSTRAP_DL_LOCATION=${array[$RANDOM % ${#array[@]} ]}
 
 #define download locations
-SCRIPT_DL_URL="https://raw.githubusercontent.com/litecoin-association/LitecoinNode/master" #the download location of the script files
-WEBSITE_DL_URL="https://raw.githubusercontent.com/litecoin-association/LitecoinNode/master/shared/www" #the download location of the status page website files
+SCRIPT_DL_URL="https://raw.githubusercontent.com/sarmaad/LitecoinNode/master" #the download location of the script files
+WEBSITE_DL_URL="https://raw.githubusercontent.com/sarmaad/LitecoinNode/master/shared/www" #the download location of the status page website files
 
 LITECOIN_FILENAME_64="$LITECOIN_VER_NO_BIT-x86_64-linux-gnu.tar.gz" #litecoin x64 file name
 LITECOIN_DL_URL_64="https://download.litecoin.org/$LITECOIN_VER_NO_BIT/linux/$LITECOIN_FILENAME_64" #litecoin x64 download link
