@@ -61,7 +61,7 @@ UBUNTU_SYSTEMD_CONF_FILE="litecoind.service" #name of the litecoind systemd scri
 
 #define download locations
 UBUNTU_BASE="$SCRIPT_DL_URL/$DIST" #base directory for ubuntu script files
-UBUNTU_SYSTEMD_CONF_FILE="$UBUNTU_BASE/litecoind.service" #the download location of the service file for litecoind
+UBUNTU_SYSTEMD_DL_URL="$UBUNTU_BASE/litecoind.service" #the download location of the service file for litecoind
 
 #debian specific variables
 #define debian directory locations
