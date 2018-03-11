@@ -53,15 +53,15 @@ NODESTATUS_DL_URL="$SCRIPT_DL_URL/shared/litecoin-node-status.py" #the download 
 
 #ubuntu specific variables
 #define ubuntu directory locations
-UBUNTU_UPSTART_CONF_DIR="/etc/init" #the directory that stores the litecoind upstart configuration file
+UBUNTU_SYSTEMD_CONF_DIR="/lib/systemd/system" #the directory that stores the litecoind systemd configuration file
 UBUNTU_WEBSITE_DIR="/usr/share/nginx/html" #the directory that stores the http status page files
 
 #define configuration file locations
-UBUNTU_UPSTART_CONF_FILE="litecoind.conf" #name of the litecoind upstart script config file. This is not the litecoin.conf file!
+UBUNTU_SYSTEMD_CONF_FILE="litecoind.service" #name of the litecoind systemd script config file. This is not the litecoin.conf file!
 
 #define download locations
 UBUNTU_BASE="$SCRIPT_DL_URL/$DIST" #base directory for ubuntu script files
-UBUNTU_UPSTART_DL_URL="$UBUNTU_BASE/litecoind.conf" #the download location of the upstart.conf file for litecoind
+UBUNTU_SYSTEMD_CONF_FILE="$UBUNTU_BASE/litecoind.service" #the download location of the service file for litecoind
 
 #debian specific variables
 #define debian directory locations

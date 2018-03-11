@@ -11,9 +11,6 @@ useradd -s /usr/sbin/nologin $LITECOIND_USER
 echo "Installing firewall configuration tool"
 apt-get install ufw -y
 
-#install upstart
-echo "Installing upstart"
-apt-get install upstart -y
 
 #allow needed firewall ports
 echo "Setting up firewall ports and enable firewall"
@@ -32,26 +29,30 @@ chown -R $LITECOIND_USER:$LITECOIND_GROUP $LITECOIND_HOME_DIR
 mkdir -v -p $LITECOIND_DATA_DIR
 chmod -R 0700 $LITECOIND_DATA_DIR
 chown -R $LITECOIND_USER:$LITECOIND_GROUP $LITECOIND_DATA_DIR
-#create conf file
-touch $LITECOIND_CONF_FILE
-chmod -R 0600 $LITECOIND_CONF_FILE
-chown -R $LITECOIND_USER:$LITECOIND_GROUP $LITECOIND_CONF_FILE
+
 #create bin directory
 mkdir -v -p $LITECOIND_BIN_DIR
 chmod -R 0700 $LITECOIND_BIN_DIR
 chown -R $LITECOIND_USER:$LITECOIND_GROUP $LITECOIND_BIN_DIR
 
-#create litecoin.conf file
-echo "Creating the litecoin.conf file"
-echo "rpcuser=$RPC_USER" >> $LITECOIND_CONF_FILE
-echo "rpcpassword=$RPC_PASSWORD" >> $LITECOIND_CONF_FILE
-echo "rpcallowip=127.0.0.1" >> $LITECOIND_CONF_FILE
-echo "server=1" >> $LITECOIND_CONF_FILE
-echo "daemon=1" >> $LITECOIND_CONF_FILE
-echo "disablewallet=1" >> $LITECOIND_CONF_FILE
-echo "maxconnections=$CON_TOTAL" >> $LITECOIND_CONF_FILE
-echo "addnode=$selectedarray_one" >> $LITECOIND_CONF_FILE
-echo "addnode=$selectedarray_two" >> $LITECOIND_CONF_FILE
+if [ -f $LITECOIND_CONF_FILE ]; then
+	#create conf file
+	touch $LITECOIND_CONF_FILE
+	chmod -R 0600 $LITECOIND_CONF_FILE
+	chown -R $LITECOIND_USER:$LITECOIND_GROUP $LITECOIND_CONF_FILE
+
+	#create litecoin.conf file
+	echo "Creating the litecoin.conf file"
+	echo "rpcuser=$RPC_USER" >> $LITECOIND_CONF_FILE
+	echo "rpcpassword=$RPC_PASSWORD" >> $LITECOIND_CONF_FILE
+	echo "rpcallowip=127.0.0.1" >> $LITECOIND_CONF_FILE
+	echo "server=1" >> $LITECOIND_CONF_FILE
+	echo "daemon=1" >> $LITECOIND_CONF_FILE
+	echo "disablewallet=0" >> $LITECOIND_CONF_FILE
+	echo "maxconnections=$CON_TOTAL" >> $LITECOIND_CONF_FILE
+	echo "addnode=$selectedarray_one" >> $LITECOIND_CONF_FILE
+	echo "addnode=$selectedarray_two" >> $LITECOIND_CONF_FILE
+fi
 
 #gets arch data
 if test $ARCH -eq "64"
@@ -74,12 +75,12 @@ cp -f -v $HOME/$LITECOIN_VER_NO_BIT/bin/litecoind $LITECOIND_BIN_DIR
 cp -f -v $HOME/$LITECOIN_VER_NO_BIT/bin/litecoin-cli $LITECOIND_BIN_DIR
 rm -r -f -v $HOME/$LITECOIN_VER_NO_BIT
 
-#add litecoind to upstart so it starts on system boot
-echo "Adding Litecoind upstart script to make it start on system boot"
-wget $UBUNTU_UPSTART_DL_URL -P $UBUNTU_UPSTART_CONF_DIR
-chmod -R 0644 $UBUNTU_UPSTART_CONF_DIR/$UBUNTU_UPSTART_CONF_FILE
-chown -R root:root $UBUNTU_UPSTART_CONF_DIR/$UBUNTU_UPSTART_CONF_FILE
-initctl reload-configuration #reload the init config
+#add litecoind to systemd so it starts on system boot
+echo "Adding Litecoind service script to make it start on system boot"
+wget $UBUNTU_SYSTEMD_DL_URL -P $UBUNTU_SYSTEMD_CONF_DIR
+chmod -R 0644 $UBUNTU_SYSTEMD_CONF_DIR/$UBUNTU_SYSTEMD_CONF_FILE
+chown -R root:root $UBUNTU_SYSTEMD_CONF_DIR/$UBUNTU_SYSTEMD_CONF_FILE
+systemctl enable litecoind.service #enable litecoind systemd config file
 
 #do we want to predownload bootstrap.dat
 read -r -p "Do you want to download the bootstrap.dat file? If you choose yes your initial blockhain sync will most likely be faster but will take up some extra space on your hard drive (Y/N) " ANSWER
@@ -92,4 +93,4 @@ fi
 
 #start litecoin daemon
 echo "Starting litecoind"
-start litecoind
+systemctl start litecoind.service
