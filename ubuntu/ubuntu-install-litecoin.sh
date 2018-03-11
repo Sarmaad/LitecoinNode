@@ -35,6 +35,7 @@ mkdir -v -p $LITECOIND_BIN_DIR
 chmod -R 0700 $LITECOIND_BIN_DIR
 chown -R $LITECOIND_USER:$LITECOIND_GROUP $LITECOIND_BIN_DIR
 
+echo "creating litecoin.conf file if not found! at $LITECOIND_CONF_FILE"
 if [ ! -f $LITECOIND_CONF_FILE ]; then
 	#create conf file
 	touch $LITECOIND_CONF_FILE
